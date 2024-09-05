@@ -64,14 +64,30 @@ public:
     int randRow;
     int randCol;
 
+    queue<Node*> bfsOpenSet;
+    Node* currentBfsNode = nullptr;
+    bool bfsRunning = false;
+
     // SEARCH ALGORITHMS
     void BFS(Node* start, Node* goal);
     vector<Node*> bfsTracedPath;
     Color bfsColor = Color{ 0, 200, 0, 100 };
 
+    void BFSInit(Node* start, Node* goal);
+    void BFSUpdate(Node* goal);
+    void UpdateAndDrawBFS();
+
     void DFS(Node* start, Node* goal);
     vector<Node*> dfsTracedPath;
     Color dfsColor = Color{ 0, 200, 0, 100 };
+
+    void Djikstra(Node* start, Node* goal);
+    vector<Node*> djikstraTracedPath;
+    Color djikstraColor = Color{ 0, 200, 0, 100 };
+
+    void Astar(Node* start, Node* goal);
+    vector<Node*> astarTracedPath;
+    Color astarColor = Color{ 0, 200, 0, 100 };
 };
 
 #endif

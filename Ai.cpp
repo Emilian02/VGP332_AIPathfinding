@@ -50,6 +50,7 @@ void Ai::Start()
     {
         randRow = GetRandomValue(0, (int)(grid.size()) - 1);
         randCol = GetRandomValue(0, (int)(grid[randRow].size()) - 1);
+
         grid[randRow][randCol].blocked = true;
     }
 
@@ -69,7 +70,7 @@ void Ai::Start()
     pointB.fillColor = BLUE;
     pointB.blocked = true; // this just so the color renders
 
-    randRow = GetRandomValue(0, (int)(grid.size()) - 1);
+ /*   randRow = GetRandomValue(0, (int)(grid.size()) - 1);
     randCol = GetRandomValue(0, (int)(grid[randRow].size()) - 1);
 
     hotspot = grid[randRow][randCol];
@@ -102,34 +103,37 @@ void Ai::Start()
                 neighbor->step = hotspot.weight - i;
             }
         }
-    }
+    }*/
 
     //BFS(&pointA, &pointB);
     //DFS(&pointA, &pointB);
-    
+    //Djikstra(&pointA, &pointB);
+    //Astar(&pointA, &pointB);
 }
 
 void Ai::UpdateAndDraw()
 {
-    for (int i = 0; i < (int)(grid.size()); i++)
-        for (int j = 0; j < (int)(grid[i].size()); j++)
-            grid[i][j].Draw();
+    //for (int i = 0; i < (int)(grid.size()); i++)
+    //    for (int j = 0; j < (int)(grid[i].size()); j++)
+    //        grid[i][j].Draw();
 
-    hotspot.Draw();
-    
-    for (Node* node : dfsTracedPath)
-    {
-        node->DrawPath(dfsColor);
-    }
+    ////hotspot.Draw();
+    //
+    //for (Node* node : bfsTracedPath)
+    //{
+    //    node->DrawPath(bfsColor);
+    //}
 
-        // Check if the "R" key is pressed
-    if (IsKeyPressed(KEY_R)) { Start(); } // RESTART
+    //    // Check if the "R" key is pressed
+    //if (IsKeyPressed(KEY_R)) { Start(); } // RESTART
 
+    //BFS(&pointA, &pointB);
 
+    //// draw home and dest. Reset 
+    //pointA.step = -1; pointA.Draw();
+    //pointB.step = -1; pointB.Draw();
 
-    // draw home and dest. Reset 
-    pointA.step = -1; pointA.Draw();
-    pointB.step = -1; pointB.Draw();
+    UpdateAndDrawBFS();
 }
 
 

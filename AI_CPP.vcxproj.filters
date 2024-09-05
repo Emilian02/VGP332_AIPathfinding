@@ -27,6 +27,12 @@
     <ClCompile Include="Ai-DFS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AI-Djikstra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ai-Start.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ai.h">
