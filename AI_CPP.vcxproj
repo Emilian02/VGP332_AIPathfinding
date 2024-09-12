@@ -130,10 +130,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ai-BFS.cpp" />
-    <ClCompile Include="Ai-DFS.cpp" />
-    <ClCompile Include="AI-Djikstra.cpp" />
-    <ClCompile Include="Ai-Start.cpp" />
     <ClCompile Include="Ai.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

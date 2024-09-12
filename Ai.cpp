@@ -25,6 +25,35 @@ void Ai::Main()
     CloseWindow();
 }
 
+Node* Ai::GetRandomNode()
+{
+    randRow = GetRandomValue(0, (int)(grid.size()) - 1);
+    randCol = GetRandomValue(0, (int)(grid[randRow].size()) - 1);
+    while (grid[randRow][randCol].currentState == NodeState::Blocked ||
+        grid[randRow][randCol].currentState == NodeState::Start ||
+        grid[randRow][randCol].currentState == NodeState::Goal)
+    {
+        randRow = GetRandomValue(0, (int)(grid.size()) - 1);
+        randCol = GetRandomValue(0, (int)(grid[randRow].size()) - 1);
+    }
+
+    return &grid[randRow][randCol];
+}
+
+Node* Ai::GetGoalNode()
+{
+    for (int i = 0; i < (int)(grid.size()); i++)
+    {
+        for (int j = 0; j < (int)(grid[i].size()); j++)
+        {
+            if (grid[i][j].currentState == NodeState::Goal)
+                return &grid[i][j];
+        }
+    }
+
+    return nullptr;
+}
+
 void Ai::Start()
 {
     // re-create the nodes
@@ -37,85 +66,29 @@ void Ai::Start()
         for (int col = 0; col < COLS; col++)
         {
             float x = NODE_SIZE * col;
-            Node node = { row, col, Vector2{x, y}, DARKGRAY, LIGHTGRAY }; // fill, stroke
+            Node node = { row, col, Vector2{x, y} };
+            node.SetState(NodeState::Idle);
             rowNodes.push_back(node);
         }
         grid.push_back(rowNodes);
     }
 
 
-
-    // take some (e.g., 5, 10, or 20) from sqaures randomly and put in blockd ones
     for (int i = 0; i < 20; i++)
     {
-        randRow = GetRandomValue(0, (int)(grid.size()) - 1);
-        randCol = GetRandomValue(0, (int)(grid[randRow].size()) - 1);
-
-        grid[randRow][randCol].blocked = true;
+        GetRandomNode()->SetState(NodeState::Blocked);
     }
 
+    GetRandomNode()->SetState(NodeState::Start);
+    GetRandomNode()->SetState(NodeState::Goal);
 
-    // choose a random home and dest from squares
-    randRow = GetRandomValue(0, (int)(grid.size()) - 1);
-    randCol = GetRandomValue(0, (int)(grid[randRow].size()) - 1);
-    pointA = grid[randRow][randCol];
-    pointA.costText = "A";
-    pointA.fillColor = GREEN;
-    pointA.blocked = true; // this just so the color renders
-
-    randRow = GetRandomValue(0, (int)(grid.size()) - 1);
-    randCol = GetRandomValue(0, (int)(grid[randRow].size()) - 1);
-    pointB = grid[randRow][randCol];
-    pointB.costText = "B";
-    pointB.fillColor = BLUE;
-    pointB.blocked = true; // this just so the color renders
-
- /*   randRow = GetRandomValue(0, (int)(grid.size()) - 1);
-    randCol = GetRandomValue(0, (int)(grid[randRow].size()) - 1);
-
-    hotspot = grid[randRow][randCol];
-    hotspot.fillColor = RED;
-    hotspot.weight = 5;
-    hotspot.costText = "5";
-
-
-    queue<Node*> openSet;
-
-    openSet.push(&hotspot); 
-
-    hotspot.visited = true;
-
-    while (!openSet.empty())
-    {
-        Node* current = openSet.front();
-        openSet.pop();
-        for (int i = 1; i < 3; ++i)
-        {
-            for (Node* neighbor : GetNeighbors(current))
-            {
-                if (neighbor->blocked || neighbor->visited)
-                    continue;
-
-                neighbor->visited = true;
-                neighbor->parent = current;
-                neighbor->fillColor = Color{ 200, 100, 100, 100 };
-                neighbor->weight = hotspot.weight - i;
-                neighbor->step = hotspot.weight - i;
-            }
-        }
-    }*/
-
-    //BFS(&pointA, &pointB);
-    //DFS(&pointA, &pointB);
-    //Djikstra(&pointA, &pointB);
-    //Astar(&pointA, &pointB);
 }
 
 void Ai::UpdateAndDraw()
 {
-    //for (int i = 0; i < (int)(grid.size()); i++)
-    //    for (int j = 0; j < (int)(grid[i].size()); j++)
-    //        grid[i][j].Draw();
+    for (int i = 0; i < (int)(grid.size()); i++)
+        for (int j = 0; j < (int)(grid[i].size()); j++)
+            grid[i][j].Draw();
 
     ////hotspot.Draw();
     //
@@ -124,16 +97,16 @@ void Ai::UpdateAndDraw()
     //    node->DrawPath(bfsColor);
     //}
 
-    //    // Check if the "R" key is pressed
-    //if (IsKeyPressed(KEY_R)) { Start(); } // RESTART
+    // Check if the "R" key is pressed
+    if (IsKeyPressed(KEY_R)) { Start(); } // RESTART
 
-    //BFS(&pointA, &pointB);
+    // Check if the "B" key is pressed
+    if (IsKeyPressed(KEY_B))
+    {
+        GetGoalNode()->SetState(NodeState::Idle, 99, true);
+        GetRandomNode()->SetState(NodeState::Goal, 99);
+    }
 
-    //// draw home and dest. Reset 
-    //pointA.step = -1; pointA.Draw();
-    //pointB.step = -1; pointB.Draw();
-
-    UpdateAndDrawBFS();
 }
 
 

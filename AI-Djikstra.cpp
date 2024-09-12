@@ -25,7 +25,6 @@ void Ai::Djikstra(Node* start, Node* goal)
 
 	// we begin all of nodes at infinity cost
 	start->gCost = 0;
-	start->step = 0;
 	openSet.push(start);
 
 	while (!openSet.empty())

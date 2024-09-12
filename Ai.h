@@ -88,6 +88,10 @@ public:
     void Astar(Node* start, Node* goal);
     vector<Node*> astarTracedPath;
     Color astarColor = Color{ 0, 200, 0, 100 };
+
+    //FSM
+    Node* GetRandomNode();
+    Node* GetGoalNode();
 };
 
 #endif
